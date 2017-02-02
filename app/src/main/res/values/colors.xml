@@ -7,9 +7,9 @@
     <color name="blue_pressed">#86AAF2</color>
     <color name="green_selected">#006E1F</color>
     <color name="green_pressed">#6AFA93</color>
-    <color name="red_selected">#EC0A0A</color>
-    <color name="red_pressed">#F77171</color>
-    <color name="yellow_selected">#FFF700</color>
-    <color name="yellow_pressed">#FFFC81</color>
+    <color name="red_selected">#e20000</color>
+    <color name="red_pressed">#ffa2a2</color>
+    <color name="yellow_selected">#afaa00</color>
+    <color name="yellow_pressed">#f7f5b1</color>
 
 </resources>

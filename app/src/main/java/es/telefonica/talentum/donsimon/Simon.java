@@ -47,7 +47,7 @@ public class Simon {
         }
     }
 
-    private void playSounds(Integer i) {
+    public void playSounds(Integer i) {
         if (mediaPlayer !=null){
             mediaPlayer.release();
             mediaPlayer = null;
@@ -72,10 +72,10 @@ public class Simon {
 
         boolean check = true;
 
-        if (myMoves == null || myMoves.size() !=moves.size()){
+        if (myMoves == null){
             return false;
         }
-        for (int i = 0; i < moves.size(); i++) {
+        for (int i = 0; i < myMoves.size(); i++) {
             Integer simonMove = moves.get(i);
             Integer myMove = myMoves.get(i);
             if (!simonMove.equals(myMove)){
@@ -85,5 +85,9 @@ public class Simon {
         }
 
         return check;
+    }
+
+    public int getLevel() {
+        return level;
     }
 }

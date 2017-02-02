@@ -37,5 +37,14 @@
         android:layout_toRightOf="@id/activity_main___blue_button"
         android:background="@drawable/button_selector_yellow"/>
 
+    <Button
+        android:id="@+id/activity_main___start_button"
+        android:backgroundTint="@color/blue_pressed"
+        android:text="¡A JUGAR!"
+        android:textSize="50sp"
+        android:layout_width="320dp"
+        android:layout_height="140dp"
+        android:layout_below="@id/activity_main___blue_button"/>
+
 
 </RelativeLayout>
