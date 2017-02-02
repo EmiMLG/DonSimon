@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
                 yellowButton
         };
 
-        Simon simon = new Simon(sounds, buttons);
+        Simon simon = new Simon(this,sounds, buttons);
         simon.reset();
         simon.nextMove();
 
