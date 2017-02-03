@@ -1,8 +1,9 @@
 package es.telefonica.talentum.donsimon;
 
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -27,12 +28,7 @@ public class MainActivity extends AppCompatActivity {
             R.raw.sonic_sound,
     };
 
-    Button[]buttons = {
-            greenButton,
-            redButton,
-            blueButton,
-            yellowButton
-    };
+
 
     private static final int GREEN_BUTTON = 0;
     private static final int RED_BUTTON = 1;
@@ -44,80 +40,122 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         greenButton = (Button) findViewById(R.id.activity_main___green_button);
         redButton = (Button) findViewById(R.id.activity_main___red_button);
         blueButton = (Button) findViewById(R.id.activity_main___blue_button);
         yellowButton = (Button) findViewById(R.id.activity_main___yellow_button);
         startButton = (Button) findViewById(R.id.activity_main___start_button);
 
-        simon = new Simon(this,sounds, buttons);
-        simon.reset();
-        simon.nextMove();
+        Button[]buttons = {
+                greenButton,
+                redButton,
+                blueButton,
+                yellowButton
+        };
 
-        myMoves = new LinkedList<>();
-        myMoves.add(0);
-        myMoves.add(1);
-        myMoves.add(2);
+        simon = new Simon(this,sounds, buttons);
+
 
         boolean correct = simon.checkMoves(myMoves);
+        simon = new Simon(this,sounds, buttons);
 
         greenButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               simon.playSounds(GREEN_BUTTON);
-
-                myMoves.add(GREEN_BUTTON);
-
-                boolean checkmoves = simon.checkMoves(myMoves);
-                if (checkmoves == true) {
-                    if (myMoves.size()== simon.getLevel()){
-                    simon.nextMove();
-                    }
-                } else {
-                    //game over
-                    simon.reset();
-                }
-
+                moveAction(GREEN_BUTTON);
             }
         });
 
         redButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PlaySound(R.raw.mortal_sound);
+                moveAction(RED_BUTTON);
             }
         });
 
         blueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PlaySound(R.raw.sable_sound);
+                moveAction(BLUE_BUTTON);
             }
         });
 
         yellowButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               PlaySound(R.raw.sonic_sound);
+              moveAction(YELLOW_BUTTON);
             }
         });
 
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                simon.reset();
+                simon.nextMove();
+
+                myMoves = new LinkedList<>();
+
+               // enableAllButton();
+
+
 
             }
         });
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
 
-    public void PlaySound(int resource) {
-        MediaPlayer mpSound;
-        mpSound = MediaPlayer.create(getBaseContext(), resource);
-        mpSound.start();
+        if (id == R.id.menu_main___easy_level) {
 
+            simon.setTime(2000);
+
+            return true;
+
+        } else if (id == R.id.menu_main____normal_level){
+            simon.setTime(1000);
+            return true;
+
+        } else if (id == R.id.menu_main___hard_level){
+            simon.setTime(500);
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
 
     }
+
+    /*private void enableAllButton() {
+        for (Button b: buttons){
+            b.setEnabled(true);
+        }
+    }*/
+
+    public void moveAction(int button){
+        simon.playSounds(button);
+        myMoves.add(button);
+        boolean checkmoves = simon.checkMoves(myMoves);
+        if (checkmoves == true) {
+            if (myMoves.size()== simon.getLevel()){
+                simon.nextMove();
+                myMoves = new LinkedList<Integer>();
+            }
+        } else {
+            //game over
+            myMoves = new LinkedList<Integer>();
+            simon.reset();
+        }
+    }
+
+
 }

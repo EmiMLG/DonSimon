@@ -3,6 +3,8 @@ package es.telefonica.talentum.donsimon;
 
 import android.content.Context;
 import android.media.MediaPlayer;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.SystemClock;
 import android.util.Log;
 import android.widget.Button;
@@ -12,6 +14,7 @@ import java.util.List;
 import java.util.Random;
 
 public class Simon {
+    private int time = 1000;
     private static final int ONE_SECOND = 1000;
     private int level = 0; //current level
     private final int[] sounds; //sounds to play
@@ -37,14 +40,29 @@ public class Simon {
     }
 
     private void playMoves() {
-        for (Integer i: moves){
-            Log.d("Simon", "move " + i);
-            //TODO: make noise
-            playSounds(i);
-            //TODO: Click button
-            //TODO: wait 1 second
-            SystemClock.sleep(ONE_SECOND);
-        }
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (Integer i: moves){
+                    Log.d("Simon", "move " + i);
+                    //TODO: make noise
+                    //TODO: Click button
+                    pressButton(buttons[i], true);
+                    playSounds(i);
+                    pressButton(buttons[i], false);
+                }
+            }
+        }).start();
+    }
+
+    private void pressButton(final Button b, final boolean state){
+        MainThread.run(new Runnable() {
+            @Override
+            public void run() {
+                b.setPressed(state);
+            }
+        });
     }
 
     public void playSounds(Integer i) {
@@ -55,6 +73,8 @@ public class Simon {
 
         mediaPlayer = MediaPlayer.create(context, sounds[i]);
         mediaPlayer.start();
+
+        SystemClock.sleep(time);
     }
 
 
@@ -69,9 +89,7 @@ public class Simon {
     }
 
     public boolean checkMoves(List<Integer> myMoves) {
-
         boolean check = true;
-
         if (myMoves == null){
             return false;
         }
@@ -90,4 +108,25 @@ public class Simon {
     public int getLevel() {
         return level;
     }
+
+    public int getTime() {
+        return time;
+    }
+
+    public void setTime(int time) {
+        this.time = time;
+    }
+}
+
+class MainThread {
+    public static void run(final Runnable runnable) {
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                runnable.run();
+            }
+        });
+    }
+
 }

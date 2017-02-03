@@ -42,7 +42,7 @@
         android:backgroundTint="@color/blue_pressed"
         android:text="¡A JUGAR!"
         android:textSize="50sp"
-        android:layout_width="320dp"
+        android:layout_width="327dp"
         android:layout_height="140dp"
         android:layout_below="@id/activity_main___blue_button"/>
 

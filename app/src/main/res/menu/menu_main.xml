@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item
+        android:title="Easy"
+        android:id="@+id/menu_main___easy_level"
+        android:icon="@android:drawable/ic_menu_delete"/>
+    <item
+        android:title="Normal"
+        android:id="@+id/menu_main____normal_level"
+        android:icon="@android:drawable/ic_menu_delete" />
+    <item
+        android:title="Hard"
+        android:id="@+id/menu_main___hard_level"
+        android:icon="@android:drawable/ic_menu_delete"/>
+    </menu>
