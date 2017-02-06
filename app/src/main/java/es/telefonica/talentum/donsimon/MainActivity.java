@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int RED_BUTTON = 1;
     private static final int BLUE_BUTTON = 2;
     private static final int YELLOW_BUTTON = 3;
+    private static final int GAME_OVER = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +60,11 @@ public class MainActivity extends AppCompatActivity {
 
         boolean correct = simon.checkMoves(myMoves);
         simon = new Simon(this,sounds, buttons);
+        int hs = new PreferenceManager().getHighScore(this);
+
+        simon.setHighScore(hs);
+
+        disableAllButton();
 
         greenButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,6 +109,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void disableAllButton() {
     }
 
     @Override
@@ -150,10 +159,18 @@ public class MainActivity extends AppCompatActivity {
                 simon.nextMove();
                 myMoves = new LinkedList<Integer>();
             }
+
+            if (simon.getLevel() > simon.getHighScore()){
+                simon.getHighScore(simon.getLevel());
+                new PreferenceManager().putHighScore(this, simon.getHighScore());
+                this.setTitle("Current Level " + simon.getLevel() + " HighScore" + simon.getHighScore());
+            }
         } else {
             //game over
-            myMoves = new LinkedList<Integer>();
+            simon.playSounds(GAME_OVER);
             simon.reset();
+            myMoves = LinkedList<Integer>();
+            disableAllButton();
         }
     }
 

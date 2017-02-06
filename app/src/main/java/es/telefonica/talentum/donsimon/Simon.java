@@ -22,6 +22,7 @@ public class Simon {
     private List<Integer> moves; //game moves (sounds & buttons to highlight)
     private MediaPlayer mediaPlayer;
     private Context context;
+    private int highScore;
 
     public Simon(Context context, int[] sounds, Button[] buttons) {
         this.context = context;
@@ -111,6 +112,14 @@ public class Simon {
 
     public int getTime() {
         return time;
+    }
+
+    public int getHighScore() {
+        return highScore;
+    }
+
+    public void setHighScore(int highScore) {
+        this.highScore = highScore;
     }
 
     public void setTime(int time) {
